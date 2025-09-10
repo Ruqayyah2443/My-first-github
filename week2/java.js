@@ -70,20 +70,22 @@ if (user4withdrawal <= user4.balance) {
 // 4
 
 let transferAmount = 10000
-if (user1.currency === user3.currency){
+if (user1.currency === user3.currency && user3.balance >= transferAmount){
     let user3balance = user3.balance - transferAmount
     let user1balance  = user1.balance + transferAmount
     user1.balance = user1balance
     user3.balance = user3balance
     console.log(`Transfer sucessful, ${user3.name} has ${user3.balance} and ${user1.name} has ${user1.balance}.`);
 }else{
-    console.log("Transfer failed: currency mismatch")
+    console.log(`Transfer failed: insufficient funds in ${user3.name}'s account`); 
 }
 
-// number 5
-let account = user1
 
-if(account.type === 'savings'){
+
+// number 5
+const accounts = [user1, user2, user3, user4]
+for (let account of accounts){
+    if(account.type === 'savings'){
     const interestresult =account.balance + (account.balance * (2/100))
     account.balance = interestresult;
     console.log(`${account.name} has ${account.balance} because of interest`)
@@ -95,52 +97,37 @@ if(account.type === 'savings'){
 }else {
 console.log("Account does not have specific type")
 }
-
-
-// 6
-let highestAccount;
-let lowestAccount;
-
-if (user1.balance > user2.balance){
-    highestAccount =user1;
-    lowestAccount = user2;
-}else{
-    highestAccount =user2;
-    lowestAccount = user1;
 }
 
-if (user3.balance > highestAccount.balance){
-    highestAccount =user3;
-}else{
-    lowestAccount = user3;
-}
 
-if (user4.balance > highestAccount.balance){
-    highestAccount =user4;
-}else{
-    lowestAccount = user4;
-}
 
-console.log(`Highest account is: ${highestAccount.name}'s account with account balance of ${highestAccount.balance}, and lowest account is: ${lowestAccount.name}'s account with account balance of ${lowestAccount.balance}.`)
+
+// Number 6
+
+let highestAccount = accounts[0];
+let lowestAccount = accounts[0];
+for (let account of accounts) {
+  if (account.balance > highestAccount.balance) highestAccount = account;
+  if (account.balance < lowestAccount.balance) lowestAccount = account;
+} console.log(`Highest account is: ${highestAccount.name}'s account with account balance of ${highestAccount.balance}, and lowest account is: ${lowestAccount.name}'s account with account balance of ${lowestAccount.balance}.`);
+
 
 // Number 7
-let accountCheck = user2;
-let status;
-if (account.balance > 0){
-    status = "Active"
-    console.log("Account is Active");
-}else if (account.balance === 0){
-    status = "Empty";
-    console.log("Account is empty");
-}else if (account.balance < 0){
-    status = "Overdrawn"
-    console.log("Account is overdrawn");
+
+for (let account of accounts) {
+  let status = account.balance > 0 ? "Active" : account.balance === 0 ? "Empty" : "Overdrawn";
+  console.log(`${account.name}'s account is ${status}`);
 }
+
+
+
 
 // number 8
 
-console.log(`${account.name} is using a ${!account.type ? "unknown" : account.type} account and has a balance of ${account.balance} ${account.currency}, and the status is ${status}`)
-
+for (let account of accounts) {
+  let status = account.balance > 0 ? "Active" : account.balance === 0 ? "Empty" : "Overdrawn";
+  console.log(`${account.name} (${account.type}): ${account.balance} ${account.currency}, Status: ${status}`);
+}
 
 
 
