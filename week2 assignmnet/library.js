@@ -37,7 +37,18 @@ function library(){
     }
     let returnBook = parseInt(prompt( `Borrowed books:\n"  ${borrowedList}\n enter the number of book you want to return` ))
    if(returnBook >=1 && returnBook <= borrowedBooks.length){
-    console.log(`You have returned: ${borrowedBooks[returnBook-1]}`)
+
+    let returned = borrowedBooks.splice(returnBook -1, 1)
+    console.log(`You have returned: ${returned[0]}`)
+    
+    // new borrowed book list
+    let newBorrowedList = "";
+    for (let i = 0; i < borrowedBooks.length; i++) {
+      newBorrowedList += (i + 1) + ". " + borrowedBooks[i] + "\n";
+    }
+
+    console.log("Updated borrowed books:\n" + newBorrowedList);
+
    }else{
     console.log("No borrowed book")
    }
